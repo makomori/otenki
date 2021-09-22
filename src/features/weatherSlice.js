@@ -6,15 +6,12 @@ export const weatherSlice = createSlice({
     weather: { area: "東京都", weather: "" },
   },
   reducers: {
-    weatherInput: (state, action) => {
-      state.weather.area = action.payload.area;
-    },
     weatherSubmit: (state, action) => {
       state.weather.weather = action.payload.weather;
     },
   },
 });
 
-export const { weatherInput, weatherSubmit } = weatherSlice.actions;
+export const { weatherSubmit } = weatherSlice.actions;
 export const selectWeather = (state) => state.weather.weather;
 export default weatherSlice.reducer;

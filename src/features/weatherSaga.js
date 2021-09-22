@@ -1,8 +1,7 @@
 import axios from "axios";
 import { put, call, takeLatest, all } from "redux-saga/effects";
 
-const applyAxios = () => {
-  const weather = useSelector(selectWeather);
+const applyAxios = (weather) => {
   const api_key = process.env.REACT_APP_WEATHER_API_KEY;
   // 質問です。
   // 以下のスプレッド構文にstate(weather.area)を入れたいのですが、どうすればよいですか？
@@ -10,12 +9,11 @@ const applyAxios = () => {
   return axios.get(url);
 };
 
-function* callApi() {
+function* callApi(action) {
   try {
-    const res = yield call(applyAxios);
-    console.log(res.data.weather[0].main);
+    const res = yield call(applyAxios, action.payload);
     yield put({
-      type: "GET_WEATHER",
+      type: "weather/weatherSubmit",
       // 質問です。
       // 以下でstateを変更する処理(weatherをres.data.weather[0].mainにする)をしたいのですが、、
       // どうすればよいですか？おそらく上のtype: "GET_WEATHER"も間違っているかもしれません。
@@ -28,7 +26,7 @@ function* callApi() {
   }
 }
 
-export const getWeather = () => ({ type: "GET_WEATHER" });
+export const getWeather = (payload) => ({ type: "GET_WEATHER", payload });
 
 function* weatherSaga() {
   yield takeLatest("GET_WEATHER", callApi);
