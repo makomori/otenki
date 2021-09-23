@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getWeather } from "../features/weatherSaga";
+import { weatherInput } from "../features/weatherSlice";
 
 export const InputWeather = (props) => {
-  const [areaName, setAreaName] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    setAreaName(e.target.value);
+    dispatch(
+      weatherInput({
+        area: e.target.value,
+      })
+    );
   };
 
   const handleSubmit = () => {
-    dispatch(getWeather({ area: areaName }));
+    dispatch(getWeather({ area: props.area }));
   };
 
   return (
@@ -20,7 +24,7 @@ export const InputWeather = (props) => {
         <label>
           <input
             type="text"
-            value={areaName}
+            value={props.area}
             onChange={handleChange}
             placeholder="都道府県名"
           />
