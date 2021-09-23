@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getWeather } from "../features/weatherSaga";
 import { weatherInput } from "../features/weatherSlice";
 
 export const InputWeather = (props) => {
+  useEffect(() => {
+    dispatch(getWeather({ area: props.area }));
+  }, []);
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
